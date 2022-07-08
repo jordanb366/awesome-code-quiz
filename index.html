@@ -8,7 +8,36 @@
     <link rel="stylesheet" href="./assets/css/styles.css">
 </head>
 <body>
-    <a href="./scores.html" target="_blank">View High Scores</a>
+    <header>
+        <a href="./scores.html" target="_blank">View High Scores</a>
+        <p>Timer: <span id="countdown-timer"></span> </p>
+    </header>
+    <section id="start-game-section">
+        <h1>Code Quiz Game</h1>
+        <p>Click the start button to begin the Code Quiz game!</p>
+        <button class="start-game">Start Game</button>
+    </section>
+
+    <section id="questions-container">
+        <p id="questions-paragraph"></p>
+        <ol>
+            <li><button id="button1"></button></li>
+            <li><button id="button2"></button></li>
+            <li><button id="button3"></button></li>
+            <li><button id="button4"></button></li>
+        </ol>
+    </section>
+    <section  id="score-submit-section">
+        <h2>Game Over</h2>
+        <h3>Your Score: <span id="score"></span></h2>
+        <form>
+            <label for="initials">Your Initials:</label><br>
+            <input type="text" id="initials" name="initials"><br>
+            <button id="submit">Submit</button>
+        </form>
+    </section>
+
+   
     <script src="./assets/js/questions.js"></script>
     <script src="./assets/js/logic.js"></script>
 </body>
