@@ -4,11 +4,14 @@ var startGameSection = document.querySelector("#start-game-section");
 var scoreSubmitSection = document.querySelector("#score-submit-section");
 var submitEl = document.querySelector("#submit");
 var initials = document.querySelector("#initials");
+var questionsContainer = document.querySelector("#questions-container");
+var questionsList = document.querySelector("#choices");
+var currentQuestion = 0;
 
 
 // Timer Countdown function
 function timerCountdown() {
-var timeLeft = 30;
+var timeLeft = 10;
 
 var timerInterval = setInterval(function() {
 
@@ -26,50 +29,89 @@ var timerInterval = setInterval(function() {
 }
 
 
+
 // Starts the game
 startGame.addEventListener("click", function() {
-    startGameSection.style.visibility = "hidden";
-    questionsContainer.style.visibility = "visible";
+    startGameSection.style.display = "none";
+    questionsContainer.style.display = "block";
     // Starts timer
     timerCountdown();
-    grabQuestions();
+    grabQuestions(currentQuestion);
+    grabAnswers();
 
-    // Pulls in questions
-    console.log(questions);
-    console.log(grabQuestions);
+  
 }); 
 
-var questionsContainer = document.querySelector("#questions-container");
 
-function grabQuestions() {
+function grabQuestions(i) {
+  var questionToGrab = questions[i];
+  questionsContainer.textContent = questionToGrab.questionsText;
+  grabAnswers();
 
-   
-    var questionsParagraph = document.querySelector("#questions-paragraph");
-    var button1 = document.querySelector("#button1");
-    var button2 = document.querySelector("#button2");
-    var button3 = document.querySelector("#button3");
-    var button4 = document.querySelector("#button4");
-    var questionsOL = document.querySelector("ol");
-   
-    questionsParagraph.textContent = questions[0].questionsText;
-  
-
-
-    var answer = button1.textContent;
-    questionsContainer.append(questionsParagraph);
-    questionsContainer.append(questionsOL);
-
-var pulledQuestions = "";
-  for (var i = 0; i < questions.length; i++) {
-    pulledQuestions += questions[i].choices;
-    
-    button1.textContent = pulledQuestions;
-  
-    
-  }
 }
 
-//////////////////////////// Submit score functions below - still working to get to work correct
+function grabAnswers() {
+  questionsList.innerHTML = "";
+  var question = questions[currentQuestion];
+  var choicesToGrab = question.choices;
+  questionsContainer.appendChild(questionsList);
+
+  var answerCorrect = question.answer;
+ // console.log(answerCorrect);
+
+
+
+  choicesToGrab.forEach(function(choice, index) {
+    var choiceElement = document.createElement("button");
+    choiceElement.textContent = choice;
+    questionsList.append(choiceElement);
+    
+
+
+    choiceElement.addEventListener("click", function(){
+   // console.log(choiceElement.textContent);
+    checkAnswer(choiceElement.textContent);
+    });
+ });
+}
+
+function checkAnswer(ans) {
+if (ans === questions[currentQuestion].answer) {
+  console.log("answer Correct");
+} else {
+  console.log("Answer Incorrect");
+}
+
+  
+   
+   if (currentQuestion <= 4) {
+    
+     currentQuestion++;
+      //console.log(currentQuestion);
+      grabQuestions(currentQuestion);
+     
+   }
+   else {
+    endOfGame();
+   }
+}
+// Function when game is over user is able to enter initials to submit to the score board on the scores page
+function endOfGame() {
+ 
+  scoreSubmitSection.style.visibility = "visible";
+  questionsContainer.style.display = "none";
+  
+  console.log(currentQuestion);
+   
+
+}
+
+
+
+// Add listener to submit element
+submitEl.addEventListener("click", scoreSubmitFunction);
+
+
 var score = 0;
 
 var actualScore = document.querySelector("#score");
@@ -77,15 +119,10 @@ var userHighScore = document.querySelector("#user-high-score");
 
 function scores() {
 actualScore.textContent = score;
-console.log(actualScore);
+
 
 }
 
-// Function when game is over user is able to enter initials to submit to the score board on the scores page
-function endOfGame() {
-   scoreSubmitSection.style.visibility = "visible";
-   questionsContainer.style.display = "none";
-}
 
 function scoreSubmitFunction(event) {
   event.preventDefault();
@@ -93,11 +130,10 @@ function scoreSubmitFunction(event) {
   userHighScore.textContent = response;
 }
 
-
-// Add listener to submit element
-submitEl.addEventListener("click", scoreSubmitFunction);
-
-
-
-
+//for (var i = 0; i < choicesToGrab.length; i++) {
+  //  var choiceElement = document.createElement("button");
+  // choiceElement.textContent = choicesToGrab[i];
+  // questionsList.append(choiceElement);
+ // console.log(questionsList);
+ // }
 
