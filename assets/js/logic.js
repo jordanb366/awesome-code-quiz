@@ -63,19 +63,15 @@ function grabAnswers() {
   questionsContainer.appendChild(questionsList);
 
   var answerCorrect = question.answer;
- // console.log(answerCorrect);
 
-
-
+// For each loop to grab each choice
   choicesToGrab.forEach(function(choice, index) {
     var choiceElement = document.createElement("button");
     choiceElement.textContent = choice;
     questionsList.append(choiceElement);
-    
 
 
     choiceElement.addEventListener("click", function(){
-   // console.log(choiceElement.textContent);
     checkAnswer(choiceElement.textContent);
     });
  });
@@ -110,9 +106,6 @@ function checkAnswer(ans) {
    if (questions.length <= currentQuestion) {
     endOfGame();
     scores();
-    
-      //console.log(currentQuestion);
-
    }
    else {
     grabQuestions(currentQuestion);
@@ -120,15 +113,13 @@ function checkAnswer(ans) {
    }
 }
 
-console.log(currentQuestion);
+
 // Function when game is over user is able to enter initials to submit to the score board on the scores page
 function endOfGame() {
   timeLeft = 0;
   scoreSubmitSection.style.display = "block";
   questionsContainer.style.display = "none";
   
-  console.log(currentQuestion);
-
 }
 
 
@@ -144,36 +135,26 @@ var userHighScore = document.querySelector("#user-high-score");
 
 function scores() {
 actualScore.textContent = score;
-
-
 }
-
-function renderScore() {
-  var userScore = localStorage.getItem("userScore");
-  var userInitials = localStorage.getItem("userInitials");
-
-  document.body.textContent = userScore + " - " + userInitials;
-}
-
 
 
 
 function scoreSubmitFunction(event) {
   event.preventDefault();
   var initialsValue = initials.value;
-  
 
   localStorage.setItem("userScore", score);
   localStorage.setItem("userInitials", initialsValue);
 
-  
+  scoreSubmitSection.style.display = "none";
+  showCorrectIncorrectHTML.style.display = "none";
+
+  var thanksForPlaying = document.createElement("h1");
+
+  document.body.append(thanksForPlaying);
+  thanksForPlaying.textContent = "Thanks for Playing the Quiz Game!";
 
 }
 
-//for (var i = 0; i < choicesToGrab.length; i++) {
-  //  var choiceElement = document.createElement("button");
-  // choiceElement.textContent = choicesToGrab[i];
-  // questionsList.append(choiceElement);
- // console.log(questionsList);
- // }
+
 

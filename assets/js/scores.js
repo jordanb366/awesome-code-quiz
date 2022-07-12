@@ -6,14 +6,14 @@ var clearScoreBtn = document.querySelector("#clear-highscores");
 
 
 
-function test() {
+function grabHighScore() {
     var userScore = localStorage.getItem("userScore");
     var userInitials = localStorage.getItem("userInitials");
   
     userHighScore.textContent = "Score" + ": " + userScore + " - Initials: " + userInitials;
   }
 
-test();
+grabHighScore();
 
 
 clearScoreBtn.addEventListener("click", clearScore);
