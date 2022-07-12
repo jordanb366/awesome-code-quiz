@@ -76,3 +76,35 @@ header {
     text-align: center;
     padding: 100px;
 }
+
+#score-submit-section h2,
+#score-submit-section h3,
+#score-submit-section form {
+    margin: 20px;
+}
+
+#initials {
+    margin: 20px;
+}
+
+#submit {
+    margin: 10px;
+    background-color: whitesmoke;
+    color: black;
+    border: 2px solid black;
+    border-radius: 10px;
+    padding: 12px;
+    font-size: larger;
+    font-weight: bold;
+}
+
+
+#show-correct-incorrect {
+    display: none;
+    background-color: aliceblue;
+    margin: 0 auto;
+    width: 1000px;
+    text-align: center;
+    padding: 100px;
+}
+

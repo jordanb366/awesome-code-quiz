@@ -1,0 +1,24 @@
+#highscores {
+    margin: 0 auto;
+    width: 1000px;
+    text-align: center;
+    padding: 20px;
+}
+
+#user-high-score {
+    margin: 20px;
+    background-color: aliceblue;
+}
+
+
+
+
+#clear-highscores {
+    background-color: aliceblue;
+
+}
+
+#clear-highscores:hover {
+    background-color: white;
+
+}

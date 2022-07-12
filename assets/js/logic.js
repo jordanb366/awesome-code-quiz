@@ -6,12 +6,15 @@ var submitEl = document.querySelector("#submit");
 var initials = document.querySelector("#initials");
 var questionsContainer = document.querySelector("#questions-container");
 var questionsList = document.querySelector("#choices");
+var showCorrectIncorrectHTML = document.querySelector("#show-correct-incorrect");
 var currentQuestion = 0;
 
+//Global variable for time
+var timeLeft = 30;
 
 // Timer Countdown function
 function timerCountdown() {
-var timeLeft = 10;
+
 
 var timerInterval = setInterval(function() {
 
@@ -20,7 +23,7 @@ var timerInterval = setInterval(function() {
 
     if (timeLeft < 0) {
         clearInterval(timerInterval);
-        score++;
+        
        endOfGame();
        scores();
     }
@@ -34,6 +37,7 @@ var timerInterval = setInterval(function() {
 startGame.addEventListener("click", function() {
     startGameSection.style.display = "none";
     questionsContainer.style.display = "block";
+    showCorrectIncorrectHTML.style.display = "block";
     // Starts timer
     timerCountdown();
     grabQuestions(currentQuestion);
@@ -43,6 +47,7 @@ startGame.addEventListener("click", function() {
 }); 
 
 
+//Grab the Questions
 function grabQuestions(i) {
   var questionToGrab = questions[i];
   questionsContainer.textContent = questionToGrab.questionsText;
@@ -50,6 +55,7 @@ function grabQuestions(i) {
 
 }
 
+//Grab the answers
 function grabAnswers() {
   questionsList.innerHTML = "";
   var question = questions[currentQuestion];
@@ -75,40 +81,59 @@ function grabAnswers() {
  });
 }
 
-function checkAnswer(ans) {
-if (ans === questions[currentQuestion].answer) {
-  console.log("answer Correct");
-} else {
-  console.log("Answer Incorrect");
-}
+// Variables for incorrect and correct answers
+var incorrectHTML = document.createElement("p");
+incorrectHTML.textContent = "";
 
-  
-   
-   if (currentQuestion <= 4) {
+var correctHTML = document.createElement("p");
+correctHTML.textContent = "";
+
+// Checks the answers
+function checkAnswer(ans) {
+  if (ans === questions[currentQuestion].answer) {
+    score++;
+    localStorage.setItem("score", score);
+    incorrectHTML.textContent = "";
+    correctHTML.textContent = "Answer correct!";
+    showCorrectIncorrectHTML.append(correctHTML);
+    console.log(correctHTML);
     
-     currentQuestion++;
+  } else {
+    correctHTML.textContent = "";
+    incorrectHTML.textContent = "Answer incorrect!";
+    showCorrectIncorrectHTML.append(incorrectHTML);
+    console.log(incorrectHTML);
+    timeLeft -= 5;
+  }
+  currentQuestion++;
+  console.log(currentQuestion);
+   if (questions.length <= currentQuestion) {
+    endOfGame();
+    scores();
+    
       //console.log(currentQuestion);
-      grabQuestions(currentQuestion);
-     
+
    }
    else {
-    endOfGame();
+    grabQuestions(currentQuestion);
+    
    }
 }
+
+console.log(currentQuestion);
 // Function when game is over user is able to enter initials to submit to the score board on the scores page
 function endOfGame() {
- 
-  scoreSubmitSection.style.visibility = "visible";
+  timeLeft = 0;
+  scoreSubmitSection.style.display = "block";
   questionsContainer.style.display = "none";
   
   console.log(currentQuestion);
-   
 
 }
 
 
 
-// Add listener to submit element
+// Add event listener to submit element
 submitEl.addEventListener("click", scoreSubmitFunction);
 
 
@@ -123,11 +148,26 @@ actualScore.textContent = score;
 
 }
 
+function renderScore() {
+  var userScore = localStorage.getItem("userScore");
+  var userInitials = localStorage.getItem("userInitials");
+
+  document.body.textContent = userScore + " - " + userInitials;
+}
+
+
+
 
 function scoreSubmitFunction(event) {
   event.preventDefault();
-  var response = score + " " + initials.value; 
-  userHighScore.textContent = response;
+  var initialsValue = initials.value;
+  
+
+  localStorage.setItem("userScore", score);
+  localStorage.setItem("userInitials", initialsValue);
+
+  
+
 }
 
 //for (var i = 0; i < choicesToGrab.length; i++) {
